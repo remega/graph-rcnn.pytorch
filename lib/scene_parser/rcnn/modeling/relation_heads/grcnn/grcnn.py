@@ -63,10 +63,10 @@ class GRCNN(nn.Module):
 
         rel_inds = torch.cat(rel_inds, 0)
 
-        subj_pred_map = rel_inds.new(obj_num, rel_inds.shape[0]).fill_(0).float().detach()
+        subj_pred_map = rel_inds.new(obj_num, rel_inds.shape[0]).fill_(0).float().detach() # box个数 x proposal 个数
         obj_pred_map = rel_inds.new(obj_num, rel_inds.shape[0]).fill_(0).float().detach()
 
-        subj_pred_map.scatter_(0, (rel_inds[:, 0].contiguous().view(1, -1)), 1)
+        subj_pred_map.scatter_(0, (rel_inds[:, 0].contiguous().view(1, -1)), 1) # 对应obj和rel的位置为1
         obj_pred_map.scatter_(0, (rel_inds[:, 1].contiguous().view(1, -1)), 1)
         obj_obj_map = obj_obj_map.type_as(obj_pred_map)
 
